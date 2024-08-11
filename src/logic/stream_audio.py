@@ -1,5 +1,8 @@
 import pyaudio
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def stream_audio_labs(text, api_key, voice="en_us_male", rate=16000, virtual_mic_name="BlackHole 2ch"):
     # Set up the PyAudio instance

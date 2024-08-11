@@ -1,5 +1,10 @@
 import asyncio
 import time
+import os
+from dotenv import load_dotenv 
+load_dotenv() 
+
+Deepgram_key = os.getenv("DEEPGRAM_API_KEY")
 
 from deepgram import (
     DeepgramClient,
@@ -15,7 +20,7 @@ class TranscriptCollector:
         self.end_time = None
         self.reset()
 
-    def reset(self): # Also starts the timer for the voice to text
+    def reset(self):
         self.transcript_parts = []
         self.start_time = None
         self.end_time = None
@@ -27,13 +32,13 @@ class TranscriptCollector:
 
     def get_full_transcript(self):
         self.end_time = time.time()
-        return ' '.join(self.transcript_parts) # Constructs final sentence 
+        return ' '.join(self.transcript_parts)
 
 transcript_collector = TranscriptCollector()
 
 async def voice_to_text(api_key):
     try:
-        config = DeepgramClientOptions(options={"keepalive": "true"}) # keeps the socket alive even if nothing is being transmitted
+        config = DeepgramClientOptions(options={"keepalive": "true"})
         deepgram: DeepgramClient = DeepgramClient(api_key, config)
         dg_connection = deepgram.listen.asyncwebsocket.v("1")
 
